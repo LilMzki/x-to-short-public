@@ -1,0 +1,11 @@
+{
+  "bgmPath": "./assets/bgm.mp3",
+
+  "fontPath": "./assets/NotoSansJP-ExtraBold.ttf",
+
+  "voiceVoxBaseUrl": "http://127.0.0.1:50021",
+
+  "serverPort": 3000,
+
+  "openaiModel": "gpt-5-mini"
+}

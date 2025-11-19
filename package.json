@@ -1,0 +1,32 @@
+{
+  "name": "x-to-short",
+  "version": "1.0.0",
+  "description": "Generate short videos from X posts",
+  "main": "dist/web/server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx src/web/server.ts",
+    "build": "tsc",
+    "start": "node dist/web/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/axios": "^0.9.36",
+    "@types/express": "^5.0.5",
+    "@types/kuromoji": "^0.1.3",
+    "@types/multer": "^2.0.0",
+    "@types/node": "^24.10.1",
+    "axios": "^1.13.2",
+    "canvas": "^3.2.0",
+    "express": "^5.1.0",
+    "kuromoji": "^0.1.2",
+    "multer": "^2.0.2",
+    "music-metadata": "^11.10.1",
+    "openai": "^6.9.0",
+    "tsc": "^2.0.4",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  }
+}

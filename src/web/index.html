@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>画像アップロード</title>
+    <style>
+        #status { margin-top: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>画像アップロード</h1>
+
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="images" id="images" multiple accept="image/*" />
+        <input type="text" name="quote" placeholder="ここに引用の内容(引用：@hogehogeなど)">
+        <button id="uploadBtn" type="submit">アップロード</button>
+    </form>
+
+    <div id="status"></div>
+    <div id="downloadSection" style="display:none;">
+        <a id="downloadLink" href="#" download="result.mp4">動画をダウンロード</a>
+    </div>
+
+    <script>
+        const form = document.getElementById("uploadForm");
+        const uploadBtn = document.getElementById("uploadBtn");
+        const status = document.getElementById("status");
+        const downloadSection = document.getElementById("downloadSection");
+        const downloadLink = document.getElementById("downloadLink");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            uploadBtn.disabled = true;
+            status.textContent = "アップロード中...";
+
+            const formData = new FormData(form);
+
+            const res = await fetch("/upload", {
+                method: "POST",
+                body: formData
+            });
+
+            const data = await res.json();
+            const jobId = data.jobId;
+
+            status.textContent = "動画生成中...しばらくお待ちください。";
+
+            // ポーリング
+            const interval = setInterval(async () => {
+                const res = await fetch(`/job-status/${jobId}`);
+                const json = await res.json();
+
+                if (json.status === "processing") {
+                    status.textContent = `動画生成中... ${json.progress ?? ""}`;
+                }
+
+                if (json.status === "complete") {
+                    clearInterval(interval);
+                    status.textContent = "動画生成が完了しました！";
+                    downloadLink.href = json.videoUrl;
+                    downloadSection.style.display = "block";
+                }
+
+                if (json.status === "error") {
+                    clearInterval(interval);
+                    status.textContent = "エラーが発生しました。";
+                    uploadBtn.disabled = false;
+                }
+
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

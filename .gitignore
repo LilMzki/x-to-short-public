@@ -1,0 +1,8 @@
+node_modules/
+dist/
+test.ts
+out/
+out.mp4
+out_withBGM.mp4
+outputs/
+uploads/
